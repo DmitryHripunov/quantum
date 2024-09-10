@@ -1,0 +1,9 @@
+:root {
+  --color-white: oklch(1 0 0);
+
+  --color-black: oklch(0.2 0.02 284.22);
+  --color-black-soft: #212131;
+  ;
+}
+
+@media (prefers-color-scheme: dark) {}

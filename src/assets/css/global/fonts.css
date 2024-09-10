@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'SanFranciscoIUDesign';
+  src:
+    local('San-Francisco-IU-Design-Medium'),
+    local('SanFranciscoIUDesignMedium'),
+    url('../../fonts/SFUIText-Medium.woff2') format('woff2'),
+    url('../../fonts/SFUIText-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SanFranciscoIUDesign';
+  src:
+    local('San-Francisco-IU-Design-Semibold'),
+    local('SanFranciscoIUDesignSemibold'),
+    url('../../fonts/SFUIText-Semibold.woff2') format('woff2'),
+    url('../../fonts/SFUIText-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SanFranciscoIUDesign';
+  src:
+    local('San-Francisco-IU-Design-Bold'),
+    local('SanFranciscoIUDesignBold'),
+    url('../../fonts/SFUIText-Bold.woff2') format('woff2'),
+    url('../../fonts/SFUIText-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
