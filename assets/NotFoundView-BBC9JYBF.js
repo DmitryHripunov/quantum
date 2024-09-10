@@ -1,0 +1,1 @@
+import{_ as o,b as n,c as t,e as s}from"./index-9r4lQWdE.js";const c={},r={class:"not-found"};function a(_,e){return n(),t("main",r,e[0]||(e[0]=[s("h1",null,"404",-1)]))}const f=o(c,[["render",a]]);export{f as default};
