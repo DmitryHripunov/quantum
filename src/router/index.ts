@@ -1,22 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-const ROUTE: { [key: string]: string } = {
-  home: '/',
-  about: '/about',
-  notFound: 'notFound',
-}
-
 const router = createRouter({
   linkActiveClass: 'link-active',
-  history: createWebHistory(ROUTE.home),
+  history: createWebHistory(),
   routes: [
     {
-      path: ROUTE.home,
-      name: 'home',
-      component: () => import('../views/HomeView.vue'),
+      path: '/quantum',
+      name: 'main',
+      component: () => import('../views/MainView.vue'),
     },
     {
-      path: ROUTE.about,
+      path: '/quantum/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
     },
