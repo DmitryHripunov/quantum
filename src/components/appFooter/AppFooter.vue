@@ -74,23 +74,28 @@ import IconTasks from '../icons/IconTasks.vue';
   font-size: 12px;
   padding: 12px 18px;
   border-radius: 20px;
+  transition: color var(--duration), background var(--duration);
 }
 
-.footer__link .svg-fill {
-  width: 24px;
-  height: 24px;
-  fill: #8d8da5;
-}
-
+.footer__link .svg-fill,
 .footer__link .svg-stroke {
   width: 24px;
   height: 24px;
+}
+
+.footer__link .svg-fill {
+  fill: #8d8da5;
+  transition: fill var(--duration);
+}
+
+.footer__link .svg-stroke {
   stroke: #8d8da5;
+  transition: stroke var(--duration);
 }
 
 .footer__link.link-active {
   color: var(--color-white);
-  background-color: #7d14d026;
+  background: #7d14d026;
 }
 
 .footer__link.link-active .svg-stroke {

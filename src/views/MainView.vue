@@ -32,6 +32,15 @@ const offSet = reactive({
 });
 
 const toNextLevelPercentages = computed(() => {
+  // const currentLevel = userData ? userData.level.current : 0
+  // const previousLevelValue = calculatePreviousLevelValue(currentLevel)
+  // const maxLevelValue = calculateNextLevelValue(currentLevel)
+  // const softBalance = userData ? userData.balance.soft : 0
+
+  // const adjustedSoft = softBalance - previousLevelValue
+  // const levelProgress = adjustedSoft / (maxLevelValue - previousLevelValue)
+  // const percentage = levelProgress * 100
+
   return ((socket.nextLevelValue - socket.balance.soft) / socket.nextLevelValue) * 100;
 });
 
