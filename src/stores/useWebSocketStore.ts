@@ -13,20 +13,23 @@ export const useWebSocketStore = defineStore("socket", () => {
   const speed = ref(0);
   const nextCostPower = ref(null);
   const nextLevelValue = ref(0);
+  const webSocketError = ref(false);
 
-  const preloading = ref(false);
+  const pendingWebSocket = ref(false);
   const ws: any = ref(null);
 
   const handleWebSocket = async () => {
     ws.value = webSocket();
-    preloading.value = true;
+    pendingWebSocket.value = true;
     ws.value.addEventListener('message', async (message: { data: any }) => {
       let data;
 
       try {
+        webSocketError.value = false;
         data = await JSON.parse(message.data);
       } catch (err) {
         console.log(err);
+        webSocketError.value = true;
         return;
       }
 
@@ -56,13 +59,12 @@ export const useWebSocketStore = defineStore("socket", () => {
           }
         }
       }
-      preloading.value = false;
+      pendingWebSocket.value = false;
     });
   }
 
   const closeWebSocket = () => {
-    ws.value.close();
-    // ws.value = null;
+    ws.value = null;
   }
 
   const upPower = () => {
@@ -91,7 +93,8 @@ export const useWebSocketStore = defineStore("socket", () => {
     nextCostPower,
     nextLevelValue,
     ws,
-    preloading,
+    pendingWebSocket,
+    webSocketError,
 
     handleWebSocket,
     closeWebSocket,

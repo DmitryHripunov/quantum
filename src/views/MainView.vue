@@ -4,12 +4,12 @@
 
     <div class="tap-progress mr"></div>
 
-    <div class="tap mr" @click="socket.makeTap">
+    <div class="mr">
       {{ socket.balance.soft }}
+    </div>
 
-      <div class="tap__number">
-        {{ counterWithOutLastNumber }}<span :class="eventTap ? 'tap__last-number' : ''">{{ counterLastNumber }}</span>
-      </div>
+    <div class="tap" @click="handleTap($event)">
+      <div class="tap__speed" v-if="offSet.right && offSet.left">+{{ socket.speed }}</div>
     </div>
 
     <div class="energy mr">Energy: {{ socket.power }} / {{ socket.powerMax }}</div>
@@ -23,41 +23,70 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useWebSocketStore } from '../stores/useWebSocketStore';
+
+const offSet = reactive({
+  left: null,
+  right: null,
+});
 
 const toNextLevelPercentages = computed(() => {
   return ((socket.nextLevelValue - socket.balance.soft) / socket.nextLevelValue) * 100;
 });
 
-const eventTap = ref(false);
+const handleTap = ($event: any) => {
+  let timeoutId = null;
 
-const counterWithOutLastNumber = computed(() => {
-  const number = socket.balance.soft;
-  const numberArray = number.toString().split('');
-  const numberWithOutLastNumber = numberArray.slice(0, numberArray.length - 1).join('');
+  if (timeoutId) clearTimeout(timeoutId);
 
-  return numberWithOutLastNumber;
-});
+  offSet.left = $event.offsetX;
+  offSet.right = $event.offsetY;
+  socket.makeTap();
 
-const counterLastNumber = computed(() => {
-  const number = socket.balance.soft;
-
-  const numberArray = number.toString().split('');
-  const lastNumberFromArray = numberArray[numberArray.length - 1];
-  return lastNumberFromArray;
-});
+  timeoutId = setTimeout(() => {
+    offSet.left = null;
+    offSet.right = null;
+  }, 120);
+};
 
 const socket = useWebSocketStore();
 </script>
 
 <style scoped>
 .tap {
+  position: relative;
   width: 200px;
   height: 200px;
   border-radius: 100%;
   background-color: rgb(89, 98, 105);
   margin: 24px auto;
+}
+
+.tap__speed {
+  position: absolute;
+  left: v-bind('offSet.left+"px"');
+  top: v-bind('offSet.right+"px"');
+  z-index: 1;
+  color: #fff;
+  /* animation: tap ease 0 infinite; */
+  animation-name: speedInfo;
+  animation-duration: 0.16s;
+}
+
+@keyframes speedInfo {
+  0% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-40px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0.1;
+  }
 }
 
 .mr {

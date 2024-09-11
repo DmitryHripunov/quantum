@@ -10,9 +10,19 @@ const router = createRouter({
       component: () => import('../views/MainView.vue'),
     },
     {
-      path: '/quantum/store',
-      name: 'store',
-      component: () => import('../views/StoreView.vue'),
+      path: '/quantum/boost',
+      name: 'boost',
+      component: () => import('../views/BoostView.vue'),
+    },
+    {
+      path: '/quantum/friends',
+      name: 'friends',
+      component: () => import('../views/FriendsViews.vue'),
+    },
+    {
+      path: '/quantum/tasks',
+      name: 'tasks',
+      component: () => import('../views/TasksView.vue'),
     },
     {
       name: 'notFound',

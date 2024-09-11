@@ -1,5 +1,9 @@
 <template>
-  <div class="container preloader" v-show="socket.preloading">LOADING...</div>
+  <div class="container preloader" v-show="socket.pendingWebSocket">
+    <span v-if="!socket.webSocketError">LOADING...</span>
+
+    <span v-else>WEbSocket Connecter Error</span>
+  </div>
 
   <AppHeader />
 
@@ -8,7 +12,6 @@
       <RouterView />
     </div>
   </main>
-
   <AppFooter />
 </template>
 
@@ -20,21 +23,11 @@ import { useWebSocketStore } from './stores/useWebSocketStore';
 
 const socket = useWebSocketStore();
 
-const visibilitychange = async () => {
-  if (document.hidden) {
-    socket.closeWebSocket();
-  } else {
-    await socket.handleWebSocket();
-  }
-};
-
 onMounted(async () => {
   await socket.handleWebSocket();
-  document.addEventListener('visibilitychange', visibilitychange);
 });
 
 onUnmounted(() => {
   socket.closeWebSocket();
-  document.removeEventListener('visibilitychange', visibilitychange);
 });
 </script>
