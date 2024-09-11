@@ -14,17 +14,16 @@
 
 <style scoped>
 .header {
-  position: sticky;
-  top: 0;
+  margin: 32px 0;
+  font-size: 16px;
 }
 
 .header__wrapper {
   display: flex;
   padding: 30px 24px;
-  border-radius: 20px 20px 30px 30px;
+  border-radius: 20px;
   background-color: var(--color-black-soft);
   align-items: center;
   justify-content: space-between;
-  font-size: 16px;
 }
 </style>

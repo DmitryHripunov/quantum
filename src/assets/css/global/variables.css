@@ -2,7 +2,8 @@
   --color-white: oklch(1 0 0);
 
   --color-black: oklch(0.2 0.02 284.22);
-  --color-black-soft: #212131;
+  --color-black-soft: oklch(0.25 0.02 284.56);
+  --color-black-hard: oklch(0.15 0.02 284.25 / 0.5);
   ;
 }
 

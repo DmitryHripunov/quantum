@@ -10,9 +10,9 @@ const router = createRouter({
       component: () => import('../views/MainView.vue'),
     },
     {
-      path: '/quantum/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      path: '/quantum/store',
+      name: 'store',
+      component: () => import('../views/StoreView.vue'),
     },
     {
       name: 'notFound',
