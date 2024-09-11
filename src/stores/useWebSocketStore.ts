@@ -31,7 +31,6 @@ export const useWebSocketStore = defineStore("socket", () => {
       }
 
       if (data.action === 'me') {
-        console.log(data.data)
         balance.value = data.data.balance;
         level.value = data.data.level.current;
         nextLevelValue.value = data.data.level.next_level_value;

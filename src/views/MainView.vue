@@ -1,8 +1,17 @@
 <template>
   <div>
     <div class="level mr">Level #{{ socket.level }}</div>
+
     <div class="tap-progress mr"></div>
-    <div class="tap mr" @click="socket.makeTap()">{{ socket.balance.soft }}</div>
+
+    <div class="tap mr" @click="socket.makeTap">
+      {{ socket.balance.soft }}
+
+      <div class="tap__number">
+        {{ counterWithOutLastNumber }}<span :class="eventTap ? 'tap__last-number' : ''">{{ counterLastNumber }}</span>
+      </div>
+    </div>
+
     <div class="energy mr">Energy: {{ socket.power }} / {{ socket.powerMax }}</div>
 
     <div class="mr">balanceToLevelUp: {{ socket.balanceToLevelUp }}</div>
@@ -14,11 +23,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useWebSocketStore } from '../stores/useWebSocketStore';
 
 const toNextLevelPercentages = computed(() => {
   return ((socket.nextLevelValue - socket.balance.soft) / socket.nextLevelValue) * 100;
+});
+
+const eventTap = ref(false);
+
+const counterWithOutLastNumber = computed(() => {
+  const number = socket.balance.soft;
+  const numberArray = number.toString().split('');
+  const numberWithOutLastNumber = numberArray.slice(0, numberArray.length - 1).join('');
+
+  return numberWithOutLastNumber;
+});
+
+const counterLastNumber = computed(() => {
+  const number = socket.balance.soft;
+
+  const numberArray = number.toString().split('');
+  const lastNumberFromArray = numberArray[numberArray.length - 1];
+  return lastNumberFromArray;
 });
 
 const socket = useWebSocketStore();
@@ -29,7 +56,7 @@ const socket = useWebSocketStore();
   width: 200px;
   height: 200px;
   border-radius: 100%;
-  background-color: aliceblue;
+  background-color: rgb(89, 98, 105);
   margin: 24px auto;
 }
 
