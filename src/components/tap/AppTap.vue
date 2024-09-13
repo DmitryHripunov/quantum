@@ -33,24 +33,30 @@ const timeoutTapActive = ref();
 if (timeoutTapActive.value) clearTimeout(timeoutTapActive.value);
 
 const createTapSpan = ($event: any, parent: any) => {
-  for (const ev of $event.targetTouches) {
+  for (const touch of $event.targetTouches) {
+    const { x, y } = $event.target.getBoundingClientRect();
+
     const span = document.createElement('span');
     let interval = null;
-    let setLeft = ev.clientX - 40;
-    let setTop = ev.clientY + 10;
+    let setLeft = touch.clientX - x;
+    let setTop = touch.clientY - y;
 
     if (interval) clearInterval(interval);
 
     span.textContent = `+${socket.tap}`;
     span.style.position = 'absolute';
     span.style.pointerEvents = 'none';
+    span.style.opacity = '1';
+
+    let decrementOpacity = 1;
 
     interval = setInterval(() => {
+      decrementOpacity -= 0.016;
       setLeft += 0.1;
       setTop -= 2;
       span.style.left = setLeft + 'px';
       span.style.top = setTop + 'px';
-      span.style.opacity = `${setTop / 100}`;
+      span.style.opacity = decrementOpacity.toString();
     }, 16);
 
     parent.appendChild(span);
