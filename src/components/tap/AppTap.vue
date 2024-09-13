@@ -32,7 +32,9 @@ const timeoutTapActive = ref();
 
 if (timeoutTapActive.value) clearTimeout(timeoutTapActive.value);
 
-const createTapSpan = ($event: any, parent: any) => {
+const createTapSpan = ($event: any) => {
+  const elements = [];
+
   for (const touch of $event.targetTouches) {
     const { x, y } = $event.target.getBoundingClientRect();
 
@@ -59,8 +61,10 @@ const createTapSpan = ($event: any, parent: any) => {
       span.style.opacity = decrementOpacity.toString();
     }, 16);
 
-    parent.appendChild(span);
+    elements.push(span);
   }
+
+  return elements;
 };
 
 const handleTap = ($event: any) => {
@@ -72,7 +76,11 @@ const handleTap = ($event: any) => {
   socket.makeTap();
   isTapActive.value = true;
 
-  createTapSpan($event, tapInfo.value);
+  const spans = createTapSpan($event);
+
+  for (const span of spans) {
+    tapInfo.value.appendChild(span);
+  }
 
   timeoutTapInfo = setTimeout(() => {
     tapInfo.value.querySelector('span')?.remove();
