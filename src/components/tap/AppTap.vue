@@ -1,5 +1,6 @@
 <template>
   <div class="tap">
+    {{ spanlenght }}
     <!-- <h1 v-if="socket.lootBox?.balance">EXCELLENT LOOT BOX</h1> -->
     <img class="tap__bg-img" src="/img/BGMain.png" alt="" />
     <div class="tap__info" ref="tapInfo" @touchstart="handleTap($event)">
@@ -15,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onUpdated, reactive, ref, watch } from 'vue';
 import { useWebSocketStore } from '../../stores/useWebSocketStore';
 import { useRoute } from 'vue-router';
 
@@ -73,6 +74,7 @@ const handleTap = ($event: any) => {
   let timeoutTapInfo = null;
 
   if (timeoutTapInfo) clearTimeout(timeoutTapInfo);
+
   socket.makeTap();
   isTapActive.value = true;
 
@@ -87,11 +89,18 @@ const handleTap = ($event: any) => {
   }, 1000);
 
   timeoutTapActive.value = setTimeout(() => {
-    if (!tapInfo.value.querySelector('span')) {
+    if (!tapInfo.value.querySelectorAll('span')[0]) {
       isTapActive.value = false;
+      // clearTimeout(timeoutTapActive.value);
     }
   }, 1000);
+
+  if (tapInfo.value.querySelectorAll('span').length) {
+    spanlenght.value = tapInfo.value.querySelectorAll('span').length || 0;
+  }
 };
+
+const spanlenght = ref();
 </script>
 
 <style scoped>
