@@ -63,7 +63,11 @@ export const useWebSocketStore = defineStore("socket", () => {
           }
         }
       }
-      pendingWebSocket.value = false;
+
+      setTimeout(() => {
+
+        pendingWebSocket.value = false;
+      }, 1000)
     });
   }
 

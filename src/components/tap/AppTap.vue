@@ -1,9 +1,8 @@
 <template>
   <div class="tap">
     <!-- <h1 v-if="socket.lootBox?.balance">EXCELLENT LOOT BOX</h1> -->
-
     <img class="tap__bg-img" src="/img/BGMain.png" alt="" />
-    <div class="tap__info" ref="tapInfo" @click="handleTap($event)">
+    <div class="tap__info" ref="tapInfo" @touchstart="handleTap($event)">
       <img
         class="tap__cat-img"
         width="260"
@@ -29,50 +28,48 @@ const offSet = reactive({
 const tapInfo = ref();
 const isTapActive = ref(false);
 const route = useRoute();
-let timeoutTapActive = ref();
+const timeoutTapActive = ref();
 
 if (timeoutTapActive.value) clearTimeout(timeoutTapActive.value);
 
 const createTapSpan = ($event: any, parent: any) => {
-  const span = document.createElement('span');
-  let interval = null;
-  let setLeft = $event.offsetX - 10;
-  let setTop = $event.offsetY - 20;
+  for (const ev of $event.targetTouches) {
+    const span = document.createElement('span');
+    let interval = null;
+    let setLeft = ev.clientX - 40;
+    let setTop = ev.clientY + 10;
 
-  if (interval) clearInterval(interval);
+    if (interval) clearInterval(interval);
 
-  span.textContent = `+${socket.tap}`;
-  span.style.position = 'absolute';
-  span.style.pointerEvents = 'none';
+    span.textContent = `+${socket.tap}`;
+    span.style.position = 'absolute';
+    span.style.pointerEvents = 'none';
 
-  interval = setInterval(() => {
-    setLeft += 0.1;
-    setTop -= 2;
-    span.style.left = setLeft + 'px';
-    span.style.top = setTop + 'px';
-    span.style.opacity = `${setTop / 100}`;
-  }, 16);
+    interval = setInterval(() => {
+      setLeft += 0.1;
+      setTop -= 2;
+      span.style.left = setLeft + 'px';
+      span.style.top = setTop + 'px';
+      span.style.opacity = `${setTop / 100}`;
+    }, 16);
 
-  return parent.appendChild(span);
+    parent.appendChild(span);
+  }
 };
 
 const handleTap = ($event: any) => {
+  if ($event.touches.length > 10) return;
+
   let timeoutTapInfo = null;
 
   if (timeoutTapInfo) clearTimeout(timeoutTapInfo);
-
-  offSet.left = $event.offsetX;
-  offSet.right = $event.offsetY;
   socket.makeTap();
   isTapActive.value = true;
 
-  const span = createTapSpan($event, tapInfo.value);
+  createTapSpan($event, tapInfo.value);
 
   timeoutTapInfo = setTimeout(() => {
-    offSet.left = null;
-    offSet.right = null;
-
-    span.remove();
+    tapInfo.value.querySelector('span')?.remove();
   }, 1000);
 
   timeoutTapActive.value = setTimeout(() => {
