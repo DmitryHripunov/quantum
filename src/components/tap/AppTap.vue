@@ -85,7 +85,12 @@ const handleTap = ($event: any) => {
   }
 
   timeoutTapInfo = setTimeout(() => {
-    tapInfo.value.querySelector('span')?.remove();
+    for (const span of spans) {
+      span.remove();
+    }
+    // tapInfo.value.querySelectorAll('span')?.forEach((span: any) => {
+    //   span.remove();
+    // });
   }, 1000);
 
   timeoutTapActive.value = setTimeout(() => {
