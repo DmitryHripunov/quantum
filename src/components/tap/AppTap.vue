@@ -81,7 +81,6 @@ const handleTap = ($event: any) => {
   timeoutTapActive.value = setTimeout(() => {
     if (!tapInfo.value.querySelector('span')) {
       isTapActive.value = false;
-      clearTimeout(timeoutTapActive.value);
     }
   }, 1500);
 };
