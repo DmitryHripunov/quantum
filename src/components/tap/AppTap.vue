@@ -82,7 +82,7 @@ const handleTap = ($event: any) => {
     if (!tapInfo.value.querySelector('span')) {
       isTapActive.value = false;
     }
-  }, 1500);
+  }, 1000);
 };
 </script>
 
