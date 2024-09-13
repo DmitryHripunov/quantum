@@ -73,7 +73,6 @@ const handleTap = ($event: any) => {
     offSet.right = null;
 
     span.remove();
-    // clearTimeout(timeoutTapActive.value);
   }, 1000);
 
   timeoutTapActive.value = setTimeout(() => {
