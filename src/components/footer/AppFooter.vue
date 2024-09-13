@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="footer" :class="{ 'footer--hidden': socket.pendingWebSocket }">
     <div class="container">
       <div class="footer__wrapper">
         <router-link class="footer__link" :to="{ name: 'main' }">
@@ -26,17 +26,25 @@
   </footer>
 </template>
 
+
 <script setup lang="ts">
 import IconAtom from '../icons/IconAtom.vue';
 import IconBoost from '../icons/IconBoost.vue';
 import IconFriends from '../icons/IconFriends.vue';
 import IconTasks from '../icons/IconTasks.vue';
+import { useWebSocketStore } from '../../stores/useWebSocketStore';
+
+const socket = useWebSocketStore();
 </script>
 
 <style scoped>
 .footer {
   margin: 32px 0;
   font-size: 16px;
+}
+
+.footer--hidden {
+  opacity: 0;
 }
 
 .footer__wrapper {
@@ -46,10 +54,8 @@ import IconTasks from '../icons/IconTasks.vue';
   padding: 8px 16px;
   border-radius: 20px 20px 30px 30px;
   background-color: var(--color-black-hard);
-
   box-shadow: 0px 4px 20px 0px #9f56f533;
-  filter: blur(0.2%);
-
+  filter: blur(0.2px);
   border: solid 1px transparent;
   position: relative;
 }

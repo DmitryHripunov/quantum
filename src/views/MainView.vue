@@ -1,124 +1,112 @@
 <template>
-  <div>
-    <div class="level mr">Level #{{ socket.level }}</div>
+  <div class="main-page">
+    <AppHeader />
 
-    <div class="tap-progress mr"></div>
-
-    <div class="mr">
-      {{ socket.balance.soft }}
+    <div class="main-page__balance">
+      <AppBalance
+        :balanceType="'soft'"
+        :imgWidth="48"
+        :imgHeight="48"
+        :fontSize="'48px'"
+        :fontWeight="700"
+        :color="'var(--color-white)'"
+      />
     </div>
 
-    <div class="tap" @click="handleTap($event)">
-      <div class="tap__speed" v-if="offSet.right && offSet.left">+{{ socket.speed }}</div>
+    <div class="main-page__progress">
+      <ProgressBar />
     </div>
 
-    <div class="energy mr">Energy: {{ socket.power }} / {{ socket.powerMax }}</div>
+    <div class="main-page__tap">
+      <AppTap />
+    </div>
 
-    <div class="mr">balanceToLevelUp: {{ socket.balanceToLevelUp }}</div>
-    <div class="mr">nextCostTap: {{ socket.nextCostTap }}</div>
-    <div class="mr">speed: {{ socket.speed }}</div>
-    <div class="mr">nextCostPower: {{ socket.nextCostPower }}</div>
-    <div class="mr">nextLevelValue: {{ socket.nextLevelValue }}</div>
+    <div class="main-page__energy">
+      <div class="main-page__energy-icon">
+        <span class="main-page__energy-burger"></span>
+
+        <IconBoost />
+      </div>
+
+      <div class="main-page__energy-info">{{ socket.power?.current }} / {{ socket.power?.max }}</div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+//@ts-ignore
+import AppHeader from '../components/header/AppHeader.vue';
+//@ts-ignore
+import AppBalance from '../components/balance/AppBalance.vue';
+//@ts-ignore
+import ProgressBar from '../components/progress/ProgressBar.vue';
+//@ts-ignore
+import IconBoost from '../components/icons/IconBoost.vue';
+//@ts-ignore
+import AppTap from '@/components/tap/AppTap.vue';
 import { useWebSocketStore } from '../stores/useWebSocketStore';
-
-const offSet = reactive({
-  left: null,
-  right: null,
-});
-
-const toNextLevelPercentages = computed(() => {
-  // const currentLevel = userData ? userData.level.current : 0
-  // const previousLevelValue = calculatePreviousLevelValue(currentLevel)
-  // const maxLevelValue = calculateNextLevelValue(currentLevel)
-  // const softBalance = userData ? userData.balance.soft : 0
-
-  // const adjustedSoft = softBalance - previousLevelValue
-  // const levelProgress = adjustedSoft / (maxLevelValue - previousLevelValue)
-  // const percentage = levelProgress * 100
-
-  return ((socket.nextLevelValue - socket.balance.soft) / socket.nextLevelValue) * 100;
-});
-
-const handleTap = ($event: any) => {
-  let timeoutId = null;
-
-  if (timeoutId) clearTimeout(timeoutId);
-
-  offSet.left = $event.offsetX;
-  offSet.right = $event.offsetY;
-  socket.makeTap();
-
-  timeoutId = setTimeout(() => {
-    offSet.left = null;
-    offSet.right = null;
-  }, 120);
-};
 
 const socket = useWebSocketStore();
 </script>
 
 <style scoped>
-.tap {
+.main-page__balance {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.main-page__energy {
+  border-radius: 12px;
+  display: inline-flex;
+  text-align: center;
+  align-items: center;
+  background-color: #913df3;
+  min-width: 140px;
+  padding: 10px 16px;
+  gap: 0 8px;
+  font-size: 16px;
+  line-height: 1;
+  filter: drop-shadow(0 10px 60px #7d14d0cc) drop-shadow(10px 20px 80px #da259c4d);
+}
+
+.main-page__energy-icon .svg-fill {
+  fill: var(--color-white);
+  width: 16px;
+  height: 18px;
+}
+
+.main-page__energy-burger {
+  display: inline-block;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-white);
   position: relative;
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
-  background-color: rgb(89, 98, 105);
-  margin: 24px auto;
 }
 
-.tap__speed {
-  position: absolute;
-  left: v-bind('offSet.left+"px"');
-  top: v-bind('offSet.right+"px"');
-  z-index: 1;
-  color: #fff;
-  /* animation: tap ease 0 infinite; */
-  animation-name: speedInfo;
-  animation-duration: 0.16s;
-}
-
-@keyframes speedInfo {
-  0% {
-    transform: translateY(-10px);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-40px);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0.1;
-  }
-}
-
-.mr {
-  margin: 16px 0;
-}
-
-.tap-progress {
-  height: 8px;
-  border-radius: 8px;
-  background-color: #323247;
-  position: relative;
-  width: 100%;
-}
-
-.tap-progress::before {
+.main-page__energy-burger::after {
   content: '';
   position: absolute;
   left: 0;
-  top: 0;
-  width: v-bind('toNextLevelPercentages+"%"');
-  height: 8px;
-  border-radius: 8px;
-  background: radial-gradient(ellipse at 0 100%, #ad12f5, #fdac62, #ff33ba);
+  bottom: 8px;
+  display: inline-block;
+  width: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-white);
+}
+
+.main-page__energy-burger::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 15px;
+  display: inline-block;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-white);
 }
 </style>
 

@@ -16,7 +16,7 @@ export const webSocket = (): WebSocket | null => {
   ws.addEventListener('open', () => {
     console.log('WebSocket connection established');
 
-    ws.send(JSON.stringify({ action: 'login', name: 'power', user_id: 1 }));
+    ws.send(JSON.stringify({ action: 'login', name: 'power1', user_id: 2 }));
     ws.send(JSON.stringify({ action: 'me' }));
     ws.send(JSON.stringify({ action: 'showcase' }));
   });

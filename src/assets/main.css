@@ -1,9 +1,8 @@
 @import './css/global/normalize.css';
 @import './css/global/variables.css';
 @import './css/global/fonts.css';
-
 @import './css/common/container.css';
-@import './css/common/preloader.css';
+@import './css/common/routeAnimation.css';
 
 html {
   box-sizing: border-box;
@@ -17,6 +16,7 @@ html {
 
 body {
   min-width: 320px;
+  min-height: 100vh;
   background-color: var(--color-black);
   font-weight: 500;
   color: var(--color-white);
@@ -29,6 +29,9 @@ body {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  max-width: 500px;
+  overflow: hidden;
+  margin: 0 auto;
 }
 
 h1,

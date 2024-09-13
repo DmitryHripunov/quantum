@@ -1,50 +1,43 @@
 <template>
-  <div class="container preloader" v-show="socket.pendingWebSocket">
-    <span v-if="!socket.webSocketError">LOADING...</span>
-
-    <span v-else>WEbSocket Connecter Error</span>
-  </div>
-
-  <AppHeader />
+  <AppPreloader />
 
   <main class="main">
     <div class="container">
-      <transition name="route">
-        <RouterView />
-      </transition>
+      <router-view v-slot="{ Component }">
+        <transition name="slide">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </main>
   <AppFooter />
 </template>
 
 <script setup lang="ts">
-import AppHeader from './components/appHeader/AppHeader.vue';
-import AppFooter from './components/appFooter/AppFooter.vue';
+//@ts-ignore
+import AppFooter from './components/footer/AppFooter.vue';
+//@ts-ignore
+import AppPreloader from './components/preloader/AppPreloader.vue';
 import { onMounted, onUnmounted } from 'vue';
 import { useWebSocketStore } from './stores/useWebSocketStore';
 
 const socket = useWebSocketStore();
 
+const checkDocumentVisible = async () => {
+  if (document.hidden) {
+    socket.closeWebSocket();
+  } else {
+    await socket.handleWebSocket();
+  }
+};
+
 onMounted(async () => {
   await socket.handleWebSocket();
+  document.addEventListener('visibilitychange', checkDocumentVisible);
 });
 
 onUnmounted(() => {
   socket.closeWebSocket();
+  document.removeEventListener('visibilitychange', checkDocumentVisible);
 });
 </script>
-
-<style>
-.route-enter-from {
-  opacity: 0;
-  transform: translateY(100px);
-}
-.route-enter-active,
-.route-leave-active {
-  transition: opacity var(--transition), transform var(--transition);
-}
-.route-leave-to {
-  opacity: 0;
-  transform: translateY(100px);
-}
-</style>

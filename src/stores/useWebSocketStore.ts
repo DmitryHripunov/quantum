@@ -1,19 +1,21 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { defineStore } from "pinia";
 import { webSocket } from '../utils/webSocket';
+import type { IUser, ILevel, IBalance, IPower, ITap, ILootBox } from '@/types/types';
 
 export const useWebSocketStore = defineStore("socket", () => {
-  const balance = ref({ soft: 0, hard: 0 });
-  const level = ref(0);
-  const tap = ref(0);
-  const power = ref(0);
-  const powerMax = ref(0);
-  const balanceToLevelUp = ref(0);
   const nextCostTap = ref(0);
   const speed = ref(0);
   const nextCostPower = ref(null);
-  const nextLevelValue = ref(0);
   const webSocketError = ref(false);
+
+  // new
+  const tap = ref<ITap>();
+  const user = ref<IUser>();
+  const level = ref<ILevel>();
+  const balance = ref<IBalance>();
+  const power = ref<IPower>();
+  const lootBox = ref<ILootBox>();
 
   const pendingWebSocket = ref(false);
   const ws: any = ref(null);
@@ -34,13 +36,15 @@ export const useWebSocketStore = defineStore("socket", () => {
       }
 
       if (data.action === 'me') {
+        level.value = data.data.level;
+        user.value = data.data.user;
         balance.value = data.data.balance;
-        level.value = data.data.level.current;
-        nextLevelValue.value = data.data.level.next_level_value;
-        power.value = data.data.power.current;
-        powerMax.value = data.data.power.max;
-
+        power.value = data.data.power;
         tap.value = data.data.tap.current;
+      }
+
+      if (data.action === 'lootbox') {
+        lootBox.value = data.data;
       }
 
       if (data.action === 'showcase') {
@@ -64,6 +68,7 @@ export const useWebSocketStore = defineStore("socket", () => {
   }
 
   const closeWebSocket = () => {
+    ws.value.close();
     ws.value = null;
   }
 
@@ -81,20 +86,48 @@ export const useWebSocketStore = defineStore("socket", () => {
     ws.value.send(JSON.stringify({ action: 'tap' }));
   };
 
+  const prettyBalanceHard = computed(() => {
+    return balance.value?.hard.toLocaleString('en-US');
+  });
+
+  const prettyBalanceSoft = computed(() => {
+    return balance.value?.soft.toLocaleString('en-US');
+  });
+
+  const prettyLevelXP = computed(() => {
+    return level.value?.xp.toLocaleString('en-US');
+  });
+
+  const prettyLevelNext = computed(() => {
+    return level.value?.next_level_value.toLocaleString('en-US');
+  });
+
+  const getProgressPercentage = computed(() => {
+    if (!level.value) return 0;
+
+    return (100 - (level.value?.next_level_value - level.value?.xp) / level.value?.next_level_value * 100).toFixed(4);
+  });
+
   return {
-    balance,
-    level,
-    power,
-    powerMax,
-    tap,
-    balanceToLevelUp,
     nextCostTap,
     speed,
     nextCostPower,
-    nextLevelValue,
-    ws,
+
+    tap,
+    user,
+    level,
+    power,
+    lootBox,
+
     pendingWebSocket,
     webSocketError,
+
+    prettyBalanceHard,
+    prettyBalanceSoft,
+    prettyLevelXP,
+    prettyLevelNext,
+
+    getProgressPercentage,
 
     handleWebSocket,
     closeWebSocket,
