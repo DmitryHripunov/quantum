@@ -2,7 +2,7 @@
 @import './css/global/variables.css';
 @import './css/global/fonts.css';
 @import './css/common/container.css';
-@import './css/common/routeAnimation.css';
+@import './css/common/slide-animation.css';
 
 html {
   box-sizing: border-box;

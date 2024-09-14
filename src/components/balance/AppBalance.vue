@@ -19,16 +19,12 @@
     />
 
     <div class="balance__info">
-      {{ balanceType === 'hard' ? socket.prettyBalanceHard : socket.prettyBalanceSoft }}
+      {{ balance }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useWebSocketStore } from '../../stores/useWebSocketStore';
-
-const socket = useWebSocketStore();
-
 defineProps({
   balanceType: {
     type: String,
@@ -47,6 +43,9 @@ defineProps({
     type: Number,
   },
   color: {
+    type: String,
+  },
+  balance: {
     type: String,
   },
 });

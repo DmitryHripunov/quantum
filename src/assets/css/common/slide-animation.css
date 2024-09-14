@@ -8,14 +8,12 @@
   transform: scale(0);
   position: absolute;
   transform-origin: center;
-
 }
-
 
 .slide-enter-to {
   opacity: 1;
   transform: scale(1);
   transform-origin: center;
 
-  transition: opacity .3s ease-in, transform .3s ease;
+  transition: opacity .16s ease-in, transform .3s ease;
 }

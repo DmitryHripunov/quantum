@@ -1,7 +1,7 @@
 <template>
-  <AppPreloader />
+  <AppPreloader v-if="socket.pendingWebSocket && !socket.webSocketError" />
 
-  <main class="main">
+  <main class="main" v-else>
     <div class="container">
       <router-view v-slot="{ Component }">
         <transition name="slide">
@@ -10,7 +10,12 @@
       </router-view>
     </div>
   </main>
+
   <AppFooter />
+
+  <BaseModal v-model:open="userHasLoot">
+    <LootModalContent v-model:open="userHasLoot" />
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
@@ -18,10 +23,24 @@
 import AppFooter from './components/footer/AppFooter.vue';
 //@ts-ignore
 import AppPreloader from './components/preloader/AppPreloader.vue';
-import { onMounted, onUnmounted } from 'vue';
+//@ts-ignore
+import BaseModal from './components/modals/BaseModal.vue';
+//@ts-ignore
+import LootModalContent from './components/modals/LootModalContent.vue';
+
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useWebSocketStore } from './stores/useWebSocketStore';
 
 const socket = useWebSocketStore();
+
+const userHasLoot = ref(false);
+
+watch(socket, async (value) => {
+  // console.log(value.lootBox);
+  if (value.lootBox?.balance.soft || value.lootBox?.balance.hard) {
+    userHasLoot.value = true;
+  }
+});
 
 const checkDocumentVisible = async () => {
   if (document.hidden) {

@@ -3,7 +3,7 @@
     <div class="container preloader" v-show="socket.pendingWebSocket">
       <span v-if="!socket.webSocketError">loading...</span>
 
-      <span v-else>WEbSocket Connecter Error</span>
+      <span v-else-if="socket.webSocketError">{{ socket.webSocketError }}</span>
     </div>
   </transition>
 </template>

@@ -10,6 +10,7 @@
         :fontSize="'48px'"
         :fontWeight="700"
         :color="'var(--color-white)'"
+        :balance="socket.prettyBalanceSoft"
       />
     </div>
 
@@ -43,7 +44,8 @@ import ProgressBar from '../components/progress/ProgressBar.vue';
 //@ts-ignore
 import IconBoost from '../components/icons/IconBoost.vue';
 //@ts-ignore
-import AppTap from '@/components/tap/AppTap.vue';
+import AppTap from '../components/tap/AppTap.vue';
+
 import { useWebSocketStore } from '../stores/useWebSocketStore';
 
 const socket = useWebSocketStore();

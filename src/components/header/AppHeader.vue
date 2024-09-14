@@ -15,6 +15,7 @@
           :fontSize="'18px'"
           :fontWeight="700"
           :color="'var(--color-yellow)'"
+          :balance="socket.prettyBalanceHard"
         />
       </div>
     </div>

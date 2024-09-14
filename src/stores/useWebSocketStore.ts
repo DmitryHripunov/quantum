@@ -7,8 +7,8 @@ export const useWebSocketStore = defineStore("socket", () => {
   const nextCostTap = ref(0);
   const speed = ref(0);
   const nextCostPower = ref(null);
-  const webSocketError = ref(false);
 
+  const webSocketError = ref();
   // new
   const tap = ref<ITap>();
   const user = ref<IUser>();
@@ -29,9 +29,9 @@ export const useWebSocketStore = defineStore("socket", () => {
       try {
         webSocketError.value = false;
         data = await JSON.parse(message.data);
-      } catch (err) {
-        console.log(err);
-        webSocketError.value = true;
+      } catch (error) {
+        console.log(error);
+        webSocketError.value = error;
         return;
       }
 
@@ -41,10 +41,6 @@ export const useWebSocketStore = defineStore("socket", () => {
         balance.value = data.data.balance;
         power.value = data.data.power;
         tap.value = data.data.tap.current;
-      }
-
-      if (data.action === 'lootbox') {
-        lootBox.value = data.data;
       }
 
       if (data.action === 'showcase') {
@@ -62,6 +58,10 @@ export const useWebSocketStore = defineStore("socket", () => {
             nextCostPower.value = key.next.cost;
           }
         }
+      }
+
+      if (data.action === 'lootbox') {
+        lootBox.value = data.data;
       }
 
       setTimeout(() => {

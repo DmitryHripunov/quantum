@@ -1,7 +1,7 @@
 <template>
+  <!-- <h1 v-if="socket.lootBox?.balance">EXCELLENT LOOT BOX</h1> -->
+
   <div class="tap">
-    {{ spanlenght }}
-    <!-- <h1 v-if="socket.lootBox?.balance">EXCELLENT LOOT BOX</h1> -->
     <img class="tap__bg-img" src="/img/BGMain.png" alt="" />
     <div class="tap__info" ref="tapInfo" @touchstart="handleTap($event)">
       <img
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUpdated, reactive, ref, watch } from 'vue';
+import { reactive, ref } from 'vue';
 import { useWebSocketStore } from '../../stores/useWebSocketStore';
 import { useRoute } from 'vue-router';
 
@@ -34,6 +34,8 @@ const timeoutTapActive = ref();
 if (timeoutTapActive.value) clearTimeout(timeoutTapActive.value);
 
 const createTapSpan = ($event: any) => {
+  if (!socket.tap) return;
+
   const elements = [];
 
   for (const touch of $event.targetTouches) {
@@ -42,7 +44,7 @@ const createTapSpan = ($event: any) => {
     const span = document.createElement('span');
     let interval = null;
     let setLeft = touch.clientX - x;
-    let setTop = touch.clientY - y;
+    let setTop = touch.clientY - (y + 30);
 
     if (interval) clearInterval(interval);
 
@@ -80,6 +82,8 @@ const handleTap = ($event: any) => {
 
   const spans = createTapSpan($event);
 
+  if (!spans) return;
+
   for (const span of spans) {
     tapInfo.value.appendChild(span);
   }
@@ -88,24 +92,14 @@ const handleTap = ($event: any) => {
     for (const span of spans) {
       span.remove();
     }
-    // tapInfo.value.querySelectorAll('span')?.forEach((span: any) => {
-    //   span.remove();
-    // });
   }, 1000);
 
   timeoutTapActive.value = setTimeout(() => {
     if (!tapInfo.value.querySelectorAll('span')[0]) {
       isTapActive.value = false;
-      // clearTimeout(timeoutTapActive.value);
     }
   }, 1000);
-
-  if (tapInfo.value.querySelectorAll('span').length) {
-    spanlenght.value = tapInfo.value.querySelectorAll('span').length || 0;
-  }
 };
-
-const spanlenght = ref();
 </script>
 
 <style scoped>
