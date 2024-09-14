@@ -1,8 +1,8 @@
 <template>
-  <div class="main-page">
+  <div class="main-view">
     <AppHeader />
 
-    <div class="main-page__balance">
+    <div class="main-view__balance">
       <AppBalance
         :balanceType="'soft'"
         :imgWidth="48"
@@ -14,22 +14,22 @@
       />
     </div>
 
-    <div class="main-page__progress">
+    <div class="main-view__progress">
       <ProgressBar />
     </div>
 
-    <div class="main-page__tap">
+    <div class="main-view__tap">
       <AppTap />
     </div>
 
-    <div class="main-page__energy">
-      <div class="main-page__energy-icon">
-        <span class="main-page__energy-burger"></span>
+    <div class="main-view__energy">
+      <div class="main-view__energy-icon">
+        <span class="main-view__energy-burger"></span>
 
         <IconBoost />
       </div>
 
-      <div class="main-page__energy-info">{{ socket.power?.current }} / {{ socket.power?.max }}</div>
+      <div class="main-view__energy-info">{{ socket.power?.current }} / {{ socket.power?.max }}</div>
     </div>
   </div>
 </template>
@@ -52,13 +52,13 @@ const socket = useWebSocketStore();
 </script>
 
 <style scoped>
-.main-page__balance {
+.main-view__balance {
   display: flex;
   justify-content: center;
   margin-bottom: 12px;
 }
 
-.main-page__energy {
+.main-view__energy {
   border-radius: 12px;
   display: inline-flex;
   text-align: center;
@@ -72,13 +72,13 @@ const socket = useWebSocketStore();
   filter: drop-shadow(0 10px 60px #7d14d0cc) drop-shadow(10px 20px 80px #da259c4d);
 }
 
-.main-page__energy-icon .svg-fill {
+.main-view__energy-icon .svg-fill {
   fill: var(--color-white);
   width: 16px;
   height: 18px;
 }
 
-.main-page__energy-burger {
+.main-view__energy-burger {
   display: inline-block;
   width: 8px;
   height: 2px;
@@ -87,7 +87,7 @@ const socket = useWebSocketStore();
   position: relative;
 }
 
-.main-page__energy-burger::after {
+.main-view__energy-burger::after {
   content: '';
   position: absolute;
   left: 0;
@@ -99,7 +99,7 @@ const socket = useWebSocketStore();
   background-color: var(--color-white);
 }
 
-.main-page__energy-burger::before {
+.main-view__energy-burger::before {
   content: '';
   position: absolute;
   left: 0;
