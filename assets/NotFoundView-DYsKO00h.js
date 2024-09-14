@@ -1,0 +1,1 @@
+import{_ as o,o as n,c as t,a as s}from"./index-7NIMxfnn.js";const a={},c={class:"not-found"};function r(_,e){return n(),t("main",c,e[0]||(e[0]=[s("h1",null,"404",-1)]))}const f=o(a,[["render",r]]);export{f as default};
