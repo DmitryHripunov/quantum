@@ -1,21 +1,29 @@
 import { computed, ref } from 'vue';
 import { defineStore } from "pinia";
 import { webSocket } from '../utils/webSocket';
-import type { IUser, ILevel, IBalance, IPower, ITap, ILootBox } from '@/types/types';
+import type {
+  IUser,
+  ILevel,
+  IBalance,
+  IPower,
+  ITap,
+  ILootBox,
+  IShowCasePower,
+  IShowCaseSpeed,
+  IShowCaseTap,
+} from '@/types/types';
 
 export const useWebSocketStore = defineStore("socket", () => {
-  const nextCostTap = ref(0);
-  const speed = ref(0);
-  const nextCostPower = ref(null);
-
   const webSocketError = ref();
-  // new
   const tap = ref<ITap>();
   const user = ref<IUser>();
   const level = ref<ILevel>();
   const balance = ref<IBalance>();
   const power = ref<IPower>();
   const lootBox = ref<ILootBox>();
+  const showcaseTap = ref<IShowCaseTap>();
+  const showcasePower = ref<IShowCasePower>();
+  const showcaseSpeed = ref<IShowCaseSpeed>();
 
   const pendingWebSocket = ref(false);
   const ws: any = ref(null);
@@ -46,16 +54,15 @@ export const useWebSocketStore = defineStore("socket", () => {
       if (data.action === 'showcase') {
         for (const key of data.data) {
           if (key.name == 'tap') {
-            nextCostTap.value = key.next.cost;
+            showcaseTap.value = key;
           }
 
           if (key.name == 'speed') {
-            nextCostTap.value = key.next.cost;
-            speed.value = key.current;
+            showcaseSpeed.value = key;
           }
 
           if (key.name == 'power') {
-            nextCostPower.value = key.next.cost;
+            showcasePower.value = key;
           }
         }
       }
@@ -95,14 +102,6 @@ export const useWebSocketStore = defineStore("socket", () => {
     }
   };
 
-  const prettyBalanceHard = computed(() => {
-    return balance.value?.hard.toLocaleString('en-US');
-  });
-
-  const prettyBalanceSoft = computed(() => {
-    return balance.value?.soft.toLocaleString('en-US');
-  });
-
   const prettyLevelXP = computed(() => {
     return level.value?.xp.toLocaleString('en-US');
   });
@@ -118,24 +117,21 @@ export const useWebSocketStore = defineStore("socket", () => {
   });
 
   return {
-    nextCostTap,
-    speed,
-    nextCostPower,
-
     tap,
     user,
     level,
     power,
+    balance,
     lootBox,
+    showcaseTap,
+    showcasePower,
+    showcaseSpeed,
 
     pendingWebSocket,
     webSocketError,
 
-    prettyBalanceHard,
-    prettyBalanceSoft,
     prettyLevelXP,
     prettyLevelNext,
-
     getProgressPercentage,
 
     handleWebSocket,

@@ -15,7 +15,7 @@
           :fontSize="'18px'"
           :fontWeight="700"
           :color="'var(--color-yellow)'"
-          :balance="socket.prettyBalanceHard"
+          :balance="socket.balance?.hard.toLocaleString('en-US')"
         />
       </div>
     </div>

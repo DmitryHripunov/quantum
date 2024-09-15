@@ -3,6 +3,9 @@
 @import './css/global/fonts.css';
 @import './css/common/container.css';
 @import './css/common/slide-animation.css';
+@import './css/common/fade-animation.css';
+@import './css/common/modal.css';
+@import './css/common/boost-card.css';
 
 html {
   box-sizing: border-box;

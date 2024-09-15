@@ -14,7 +14,7 @@
   <AppFooter />
 
   <BaseModal v-model:open="userHasLoot">
-    <LootModalContent v-model:open="userHasLoot" />
+    <LootModal v-model:open="userHasLoot" />
   </BaseModal>
 </template>
 
@@ -26,7 +26,7 @@ import AppPreloader from './components/preloader/AppPreloader.vue';
 //@ts-ignore
 import BaseModal from './components/modals/BaseModal.vue';
 //@ts-ignore
-import LootModalContent from './components/modals/LootModalContent.vue';
+import LootModal from './components/modals/LootModal.vue';
 
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useWebSocketStore } from './stores/useWebSocketStore';

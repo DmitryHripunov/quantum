@@ -12,10 +12,10 @@
 
     <div class="boost-view__list">
       <div class="boost-view__container">
-        <p class="boots-view__card-title">Free boosters</p>
+        <h3 class="boots-view__card-title">Free boosters</h3>
       </div>
 
-      <div class="boots-view__card">
+      <!-- <div class="boots-view__card">
         <div class="boost-view__container">
           <div class="boost-view__icon boost-view__icon--boost">
             <IconBoost />
@@ -27,85 +27,77 @@
             <div class="boots-view__card-info">3/3 available</div>
           </div>
 
-          <button class="boots-view__card-btn">>>></button>
+          <button class="boots-view__card-btn">
+            <span class="boots-view__card-btn-arrow"></span>
+            <span class="boots-view__card-btn-arrow"></span>
+            <span class="boots-view__card-btn-arrow"></span>
+          </button>
         </div>
-      </div>
+      </div> -->
+
+      <CardTap @modal-open="makeUpTapModalOpen" />
 
       <div class="boost-view__container">
-        <p class="boots-view__card-title boots-view__card-title--huge-top">Other booosters</p>
+        <h3 class="boots-view__card-title boots-view__card-title--huge-top">Other booosters</h3>
       </div>
 
-      <div class="boots-view__card">
-        <div class="boost-view__container">
-          <div class="boost-view__icon boost-view__icon--boost">
-            <IconBoost />
-          </div>
+      <CardPower @modal-open="makeUpPowerModalOpen" />
 
-          <div class="boots-view__card-detail">
-            <div class="boots-view__card-desc">All day energy limit</div>
+      <CardSpeed @modal-open="makeUpSpeedModalOpen" />
 
-            <AppBalance
-              :balanceType="'hard'"
-              :imgWidth="14"
-              :imgHeight="17"
-              :fontSize="'12px'"
-              :fontWeight="500"
-              :color="'var(--color-yellow)'"
-              :balance="'200,000'"
-            />
-
-            <div class="boots-view__card-info">3/3 available LVL 2</div>
-          </div>
-
-          <button class="boots-view__card-btn">>>></button>
-        </div>
-      </div>
-
-      <div class="boots-view__card">
-        <div class="boost-view__container">
-          <div class="boost-view__icon boost-view__icon--boost">
-            <IconBoost />
-          </div>
-
-          <div class="boots-view__card-detail">
-            <div class="boots-view__card-desc">Multitap</div>
-            <AppBalance
-              :balanceType="'soft'"
-              :imgWidth="14"
-              :imgHeight="17"
-              :fontSize="'12px'"
-              :fontWeight="500"
-              :color="'var(--color-yellow)'"
-              :balance="'200,000'"
-            />
-
-            <div class="boots-view__card-info">3/3 available LVL 2</div>
-          </div>
-
-          <button class="boots-view__card-btn">>>></button>
-        </div>
-      </div>
-
-      <div class="boots-view__card">
-        <div class="boost-view__container">
-          <div class="boost-view__icon boost-view__icon--boost">
-            <IconBoost />
-          </div>
-
-          <div class="boots-view__card-detail">
-            <div class="boots-view__card-desc">Auto tap bot</div>
-          </div>
-          <button class="boots-view__card-btn">Soon</button>
-        </div>
-      </div>
+      <CardSoon />
     </div>
+
+    <BaseModal v-model:open="upPowerModalOpen">
+      <UpPowerModal v-model:open="upPowerModalOpen" />
+    </BaseModal>
+
+    <BaseModal v-model:open="upSpeedModalOpen">
+      <UpSpeedModal v-model:open="upSpeedModalOpen" />
+    </BaseModal>
+
+    <BaseModal v-model:open="upTapModalOpen">
+      <UpTapModal v-model:open="upTapModalOpen" />
+    </BaseModal>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 // @ts-ignore
-import AppBalance from '../components/balance/AppBalance.vue';
 import IconBoost from '../components/icons/IconBoost.vue';
+// @ts-ignore
+import BaseModal from '../components/modals/BaseModal.vue';
+// @ts-ignore
+import UpPowerModal from '../components/modals/UpPowerModal.vue';
+// @ts-ignore
+import UpSpeedModal from '../components/modals/UpSpeedModal.vue';
+// @ts-ignore
+import UpTapModal from '../components/modals/UpTapModal.vue';
+// @ts-ignore
+import CardTap from '..//components/boostCards/CardTap.vue';
+// @ts-ignore
+import CardPower from '../components/boostCards/CardPower.vue';
+// @ts-ignore
+import CardSpeed from '..//components/boostCards/CardSpeed.vue';
+// @ts-ignore
+import CardSoon from '..//components/boostCards/CardSoon.vue';
+
+const upPowerModalOpen = ref(false);
+const upSpeedModalOpen = ref(false);
+const upTapModalOpen = ref(false);
+
+const makeUpTapModalOpen = () => {
+  upTapModalOpen.value = true;
+};
+
+const makeUpPowerModalOpen = () => {
+  upPowerModalOpen.value = true;
+};
+
+const makeUpSpeedModalOpen = () => {
+  upSpeedModalOpen.value = true;
+};
 </script>
 
 <style scoped>
@@ -119,6 +111,8 @@ import IconBoost from '../components/icons/IconBoost.vue';
 .boost-view__container {
   max-width: 380px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
 }
 
 .boost-view__title {
@@ -151,64 +145,6 @@ import IconBoost from '../components/icons/IconBoost.vue';
 }
 
 .boots-view__card-title--huge-top {
-  margin-top: 60px;
-}
-
-.boots-view__card {
-  position: relative;
-  padding: 16px;
-  border: 1px solid transparent;
-  border-radius: 30px 30px 0 0;
-  z-index: 1;
-  min-height: 100px;
-}
-
-.boots-view__card::before {
-  position: absolute;
-  content: '';
-  z-index: -1;
-  inset: 0;
-  border: inherit;
-  border-radius: inherit;
-  background: linear-gradient(var(--color-black) 0 0) padding-box,
-    linear-gradient(0deg, rgba(21, 21, 31, 0) 0%, #5a5a80 100%) border-box;
-}
-
-.boost-view__container {
-  display: flex;
-  align-items: center;
-}
-
-.boots-view__card-btn {
-  margin-left: auto;
-}
-
-.boost-view__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #5a5a8033;
-  border-radius: 20px 20px 0 0;
-  background: linear-gradient(0deg, rgba(20, 20, 31, 0) 0%, #333348 100%);
-  padding: 16px 36px 36px;
-  margin-right: 16px;
-  height: 100%;
-  border-bottom: none;
-}
-
-.boost-view__icon--boost .svg-fill {
-  width: 20px;
-  height: 30px;
-  fill: #ff33ba;
-}
-
-.boots-view__card-desc {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.boots-view__card-info {
-  font-size: 12px;
   margin-top: 16px;
 }
 </style>

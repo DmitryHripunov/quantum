@@ -1,0 +1,115 @@
+.modal {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #161522b2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  padding: 24px 0;
+}
+
+.modal__wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+  padding: 24px 16px;
+  border-radius: 20px 20px 30px 30px;
+  background: linear-gradient(0deg, #2d2d43 0%, #232335 100%);
+  border: 1px solid #5a5a80;
+}
+
+.modal__close {
+  position: absolute;
+  top: -16px;
+  right: 12px;
+  width: 35px;
+  height: 35px;
+  display: block;
+  border: 1px solid #5b5b80;
+  color: #5b5b80;
+  border-radius: 50%;
+  padding: 8px;
+  background: #2d2d43;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1;
+  font-size: 16px;
+}
+
+.modal__content {
+  width: 100%;
+}
+
+.modal__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.modal__content--loot::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/img/BGChest.png') 50% -90% / 100% 80% no-repeat;
+  z-index: -1;
+}
+
+.modal__title {
+  font-weight: 700;
+  font-size: 36px;
+  margin-bottom: 24px;
+}
+
+.modal__img-chests {
+  display: block;
+  margin: 16px auto;
+}
+
+.modal__desc {
+  font-size: 16px;
+  text-align: center;
+  margin: 24px 0;
+  max-width: 235px;
+}
+
+.modal__balance {
+  margin: 24px 0;
+}
+
+.modal__btn-get {
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--color-black);
+  min-width: 180px;
+  padding: 16px;
+  background-color: var(--color-yellow);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__btn-get:disabled {
+  opacity: .2;
+}
+
+.modal__icon .svg-fill {
+  fill: var(--color-yellow);
+  width: 80px;
+  height: 70px;
+}

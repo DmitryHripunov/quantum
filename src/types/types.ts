@@ -30,3 +30,31 @@ export interface ILootBox {
     hard: number;
   };
 }
+
+export interface IShowCasePower {
+  current: number;
+  next: {
+    cost: number;
+    currency: string;
+    value: number;
+  };
+}
+
+export interface IShowCaseSpeed {
+  current: number;
+  next: {
+    cost: number;
+    currency: string;
+    value: number;
+  };
+}
+
+export interface IShowCaseTap {
+  current: number;
+  free: boolean;
+  next: {
+    cost: number;
+    currency: string;
+    value: number;
+  };
+}

@@ -10,7 +10,7 @@
         :fontSize="'48px'"
         :fontWeight="700"
         :color="'var(--color-white)'"
-        :balance="socket.prettyBalanceSoft"
+        :balance="socket.balance?.soft.toLocaleString('en-US')"
       />
     </div>
 
