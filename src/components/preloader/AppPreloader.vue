@@ -1,11 +1,11 @@
 <template>
-  <transition name="slide">
-    <div class="container preloader" v-show="socket.pendingWebSocket">
-      <span v-if="!socket.webSocketError">loading...</span>
+  <div class="container preloader">
+    <span v-if="socket.pendingWebSocket">loading...</span>
 
-      <span v-else-if="socket.webSocketError">{{ socket.webSocketError }}</span>
-    </div>
-  </transition>
+    <span v-else-if="socket.webSocketError">{{ socket.webSocketError }}</span>
+
+    <div v-else># Заглушка</div>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <AppPreloader v-if="socket.pendingWebSocket && !socket.webSocketError" />
+  <AppPreloader v-if="socket.pendingWebSocket || socket.webSocketError || isUserDeviceDesktop" />
 
   <main class="main" v-else>
     <div class="container">
@@ -28,7 +28,7 @@ import BaseModal from './components/modals/BaseModal.vue';
 //@ts-ignore
 import LootModalContent from './components/modals/LootModalContent.vue';
 
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useWebSocketStore } from './stores/useWebSocketStore';
 
 const socket = useWebSocketStore();
@@ -40,6 +40,17 @@ watch(socket, async (value) => {
   if (value.lootBox?.balance.soft || value.lootBox?.balance.hard) {
     userHasLoot.value = true;
   }
+});
+
+const isUserDeviceDesktop = computed(() => {
+  const ua = navigator.userAgent;
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+    return false;
+  }
+  if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+    return false;
+  }
+  return true;
 });
 
 const checkDocumentVisible = async () => {
