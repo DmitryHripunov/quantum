@@ -37,13 +37,24 @@
 
       <div class="boots-view__card">
         <div class="boost-view__container">
-          <div class="boots-view__card-desc">All day energy limit</div>
+          <div class="boost-view__icon boost-view__icon--boost">
+            <IconBoost />
+          </div>
 
           <div class="boots-view__card-detail">
-            <div class="">ICON</div>
+            <div class="boots-view__card-desc">All day energy limit</div>
 
-            <div class="">3/3 available</div>
-            <div class="">LVL 2</div>
+            <AppBalance
+              :balanceType="'hard'"
+              :imgWidth="14"
+              :imgHeight="17"
+              :fontSize="'12px'"
+              :fontWeight="500"
+              :color="'var(--color-yellow)'"
+              :balance="'200,000'"
+            />
+
+            <div class="boots-view__card-info">3/3 available LVL 2</div>
           </div>
 
           <button class="boots-view__card-btn">>>></button>
@@ -52,13 +63,23 @@
 
       <div class="boots-view__card">
         <div class="boost-view__container">
-          <div class="boots-view__card-desc">Multitap</div>
+          <div class="boost-view__icon boost-view__icon--boost">
+            <IconBoost />
+          </div>
 
           <div class="boots-view__card-detail">
-            <div class="">ICON</div>
+            <div class="boots-view__card-desc">Multitap</div>
+            <AppBalance
+              :balanceType="'soft'"
+              :imgWidth="14"
+              :imgHeight="17"
+              :fontSize="'12px'"
+              :fontWeight="500"
+              :color="'var(--color-yellow)'"
+              :balance="'200,000'"
+            />
 
-            <div class="">3/3 available</div>
-            <div class="">LVL 2</div>
+            <div class="boots-view__card-info">3/3 available LVL 2</div>
           </div>
 
           <button class="boots-view__card-btn">>>></button>
@@ -67,8 +88,13 @@
 
       <div class="boots-view__card">
         <div class="boost-view__container">
-          <div class="boots-view__card-desc">Auto tap bot</div>
+          <div class="boost-view__icon boost-view__icon--boost">
+            <IconBoost />
+          </div>
 
+          <div class="boots-view__card-detail">
+            <div class="boots-view__card-desc">Auto tap bot</div>
+          </div>
           <button class="boots-view__card-btn">Soon</button>
         </div>
       </div>
@@ -77,6 +103,8 @@
 </template>
 
 <script setup lang="ts">
+// @ts-ignore
+import AppBalance from '../components/balance/AppBalance.vue';
 import IconBoost from '../components/icons/IconBoost.vue';
 </script>
 
@@ -101,7 +129,7 @@ import IconBoost from '../components/icons/IconBoost.vue';
   border-radius: 20px;
   border: 1px;
   background: linear-gradient(90deg, rgba(141, 141, 165, 0.4) 0%, rgba(38, 38, 56, 0) 100%);
-  width: 380px;
+  width: calc(100vw - 48px);
   position: relative;
   z-index: -1;
 }
@@ -172,5 +200,15 @@ import IconBoost from '../components/icons/IconBoost.vue';
   width: 20px;
   height: 30px;
   fill: #ff33ba;
+}
+
+.boots-view__card-desc {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.boots-view__card-info {
+  font-size: 12px;
+  margin-top: 16px;
 }
 </style>

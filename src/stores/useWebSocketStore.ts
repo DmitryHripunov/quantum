@@ -87,7 +87,12 @@ export const useWebSocketStore = defineStore("socket", () => {
   };
 
   const makeTap = () => {
-    ws.value.send(JSON.stringify({ action: 'tap' }));
+    try {
+
+      ws.value.send(JSON.stringify({ action: 'tap' }));
+    } catch {
+      console.log('error')
+    }
   };
 
   const prettyBalanceHard = computed(() => {

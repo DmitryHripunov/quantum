@@ -1,6 +1,7 @@
 export const webSocket = (): WebSocket | null => {
   let ws: any = null;
 
+
   if (ws) {
     ws.onerror = ws.onopen = ws.onclose = null;
     ws.close();
@@ -8,8 +9,8 @@ export const webSocket = (): WebSocket | null => {
 
   ws = new WebSocket(`${import.meta.env.VITE_WS_CATS_PLAY}`);
 
-  ws.addEventListener('error', (errorEvent: ErrorEvent) => {
-    console.log(`WebSocket error: ${errorEvent}`);
+  ws.addEventListener('error', () => {
+    console.error(`WebSocket Error`);
     ws = null;
   });
 

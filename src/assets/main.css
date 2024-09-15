@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  min-width: 320px;
+  min-width: 340px;
   min-height: 100vh;
   background-color: var(--color-black);
   font-weight: 500;
@@ -29,9 +29,9 @@ body {
   display: grid;
   grid-template-rows: 1fr auto;
   min-height: 100vh;
-  max-width: 500px;
   overflow: hidden;
   margin: 0 auto;
+  max-width: 500px;
 }
 
 h1,

@@ -1,6 +1,4 @@
 <template>
-  <!-- <h1 v-if="socket.lootBox?.balance">EXCELLENT LOOT BOX</h1> -->
-
   <div class="tap">
     <img class="tap__bg-img" src="/img/BGMain.png" alt="" />
     <div class="tap__info" ref="tapInfo" @touchstart="handleTap($event)">
@@ -34,8 +32,6 @@ const timeoutTapActive = ref();
 if (timeoutTapActive.value) clearTimeout(timeoutTapActive.value);
 
 const createTapSpan = ($event: any) => {
-  if (!socket.tap) return;
-
   const elements = [];
 
   for (const touch of $event.targetTouches) {
